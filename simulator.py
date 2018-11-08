@@ -113,7 +113,7 @@ class Simulator:
 
     def analitical_calc(self):
         lamb = 1/self.e_c
-        u = self.e_x * lamb
+        u = self.e_x * (lamb)
         e_w = self.e_x/(1 - u)
         e_n = u/(1 - u)
 
@@ -199,7 +199,7 @@ def examples():
     console_title()
 
     # Exemplo de execução
-    test_generator(15, 0.10, 0.09, 3600)
+    test_generator(15, 0.1, 0.09, 3600)
     console_break_line()
     test_generator(15, 0.11, 0.09, 3600)
     console_break_line()
