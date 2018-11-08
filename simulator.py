@@ -3,7 +3,6 @@
 from event import Event, Arrival, Exit
 from element import Element
 from termcolor import colored
-import numpy as np
 import matplotlib.pyplot as plt
 
 average_time_group = []
@@ -144,8 +143,9 @@ def err_generator(info_array):
 def graph_bar_generator(info_array, name_array, label_x, label_y, title, color):
     barWidth = 0.5
     yerr = err_generator(info_array)
-    position_array = np.arange(len(info_array))
+    position_array = range(1, len(info_array)+1)
     plt.bar(position_array, info_array, width = barWidth, color = color, edgecolor = 'black', yerr=yerr, capsize=7, label='experimentos')
+    plt.plot(position_array, info_array, color = "black")
 
     if len(name_array) != 0:
         plt.xticks(position_array, name_array)
@@ -164,9 +164,9 @@ def examples():
     # Exemplo de execução
     test_generator(15, 0.10, 0.09, 3600)
     console_break_line()
-    test_generator(15, 0.11, 0.09, 600)
+    test_generator(15, 0.11, 0.09, 3600)
     console_break_line()
-    test_generator(15, 0.12, 0.09, 600)
+    test_generator(15, 0.12, 0.09, 3600)
     console_break_line()
     test_generator(15, 0.14, 0.09, 3600)
     console_break_line()
