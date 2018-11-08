@@ -8,20 +8,20 @@ class Event:
     def __init__(self, time):
         self.time = time
 
-    def generateTime(self, lamb):
+    def generateTime(self, e):
         randomNumber = self.randomGenerator.generateRandomNumber()
-        self.time = ((math.log(randomNumber))/(-lamb)) + self.time
+        self.time = ((math.log(randomNumber))/(-1/e)) + self.time
 
 class Arrival(Event):
     def __init__(self, time):
         Event.__init__(self, time)
 
-    def generateTime(self, lamb):
-        Event.generateTime(self, lamb)
+    def generateTime(self, e):
+        Event.generateTime(self, e)
 
 class Exit(Event):
     def __init__(self, time):
         Event.__init__(self, time)
 
-    def generateTime(self, lamb):
-        Event.generateTime(self, lamb)
+    def generateTime(self, e):
+        Event.generateTime(self, e)
