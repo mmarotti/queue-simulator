@@ -1,0 +1,55 @@
+from event import Event, Arrival, Exit
+
+class Simulator:
+    def simulate(self, initial_event, simulation_time, lamb, lamb_server):
+        self.time = 0
+        self.num_elements = 0
+        self.num_arrivals=0
+        self.num_exits=0
+        self.withdrawals = 0
+        self.events = [initial_event]
+        while(self.time <= simulation_time):
+            if(len(self.events) == 0):
+                nex_arrival_event = Arrival(self.time)
+                nex_arrival_event.generateTime(lamb)
+                self.events.append(nex_arrival_event)
+            elif(self.events[0].__class__.__name__ == "Arrival"):
+                self.time = self.events[0].time
+                self.num_elements += 1
+                self.num_arrivals += 1
+                self.events.pop(0)
+                if(self.num_elements < 15):
+                    nex_arrival_event = Arrival(self.time)
+                    nex_arrival_event.generateTime(lamb)
+                    self.events.append(nex_arrival_event)
+                else:
+                    self.withdrawals+=1
+                if(self.num_elements == 1):
+                    nex_exit_event = Exit(self.time)
+                    nex_exit_event.generateTime(lamb_server)
+                    self.events.append(nex_exit_event)
+            elif(self.events[0].__class__.__name__ == "Exit"):
+                self.time = self.events[0].time
+                self.num_elements -= 1
+                self.num_exits += 1
+                self.events.pop(0)
+                print
+                if(self.num_elements > 0):
+                    nex_exit_event = Exit(self.time)
+                    nex_exit_event.generateTime(lamb_server)
+                    self.events.append(nex_exit_event)
+            self.events.sort(key=lambda x: x.time)
+            for i in self.events:
+                print([i.__class__.__name__, i.time]),
+            print(self.num_elements)
+        print(self.withdrawals)
+
+    def average_time(self):
+        w=0
+        for i in self.processed_events:
+            w += i.exit - i.arrival
+        return w/self.num_exits
+
+teste = Simulator()
+inicial = Arrival(0)
+teste.simulate(inicial, 20, 9, 2)
