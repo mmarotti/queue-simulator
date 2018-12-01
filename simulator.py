@@ -50,21 +50,21 @@ class Simulator:
                     self.events.append(nex_exit_event)
             self.events.sort(key=lambda x: x.time)
         print("-------------------------------------------")
-        print colored("| Número de chegadas: " + str(self.num_arrivals), "blue")
-        print colored("| Número de atendimentos: " + str(len(self.processed_queue)), "green")
-        print colored("| Número de desistências: " + str(self.num_dropouts), "red")
+        print(colored("| Número de chegadas: " + str(self.num_arrivals), "blue"))
+        print(colored("| Número de atendimentos: " + str(len(self.processed_queue)), "green"))
+        print(colored("| Número de desistências: " + str(self.num_dropouts), "red"))
         print("-------------------------------------------")
 
     def average_time(self):
         w = 0
         for element in self.processed_queue:
             w += element.exit - element.arrival
-        print colored("| Média de tempo na fila: " + str(w/len(self.processed_queue)), "magenta")
+        print(colored("| Média de tempo na fila: " + str(w/len(self.processed_queue)), "magenta"))
         print("-------------------------------------------")
         return(w/len(self.processed_queue))
 
     def dropout_taxe(self):
-        print colored("| Taxa de desistência: " + str(float(self.num_dropouts)/self.num_arrivals), "yellow")
+        print (colored("| Taxa de desistência: " + str(float(self.num_dropouts)/self.num_arrivals), "yellow"))
         print("-------------------------------------------")
         return float(self.num_dropouts)/self.num_arrivals
 
@@ -72,7 +72,7 @@ class Simulator:
         w = 0
         for element in self.processed_queue:
             w += element.exit - element.start_processing
-        print colored("| Taxa de utilização: " + str(w/self.simulation_time), "cyan")
+        print(colored("| Taxa de utilização: " + str(w/self.simulation_time), "cyan"))
         print("-------------------------------------------")
         return (w/self.simulation_time)
 
