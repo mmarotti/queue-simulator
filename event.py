@@ -1,14 +1,16 @@
-import random
+import randomGen
 import math
 
 class Event:
     time = 0
+    randomGenerator = randomGen.RandomGenerator(351)
 
     def __init__(self, time):
         self.time = time
 
     def generateTime(self, lamb):
-        self.time = ((math.log(random.uniform(0,1)))/(-lamb)) + self.time
+        randomNumber = self.randomGenerator.generateRandomNumber()
+        self.time = ((math.log(randomNumber))/(-lamb)) + self.time
 
 class Arrival(Event):
     def __init__(self, time):
