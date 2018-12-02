@@ -3,7 +3,7 @@ import math
 
 class Event:
     time = 0
-    randomGenerator = randomGen.RandomGenerator(351)
+    randomGenerator = randomGen.RandomGenerator()
 
     def __init__(self, time):
         self.time = time
