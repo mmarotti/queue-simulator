@@ -141,28 +141,55 @@ def err_generator(info_array):
 
     return err_array
 
-def graph_bar_generator(info_array, label):
+def graph_bar_generator(info_array, name_array, label_x, label_y, title, color):
     barWidth = 0.5
     yerr = err_generator(info_array)
     position_array = np.arange(len(info_array))
-    plt.bar(position_array, info_array, width = barWidth, color = 'blue', edgecolor = 'black', yerr=yerr, capsize=7, label='experimentos')
+    plt.bar(position_array, info_array, width = barWidth, color = color, edgecolor = 'black', yerr=yerr, capsize=7, label='experimentos')
     
-    plt.xticks(position_array, position_array)
-    plt.ylabel(label)
-    plt.title(label)
+    if len(name_array) != 0:
+        plt.xticks(position_array, name_array)
+    else:
+        plt.xticks(position_array, position_array)
+
+    plt.xlabel(label_x)
+    plt.ylabel(label_y)
+    plt.title(title)
     
     plt.show()
 
 def examples():
     console_title()
+
+    # Exemplo de execução
+    test_generator(15, 0.10, 0.09, 3600)
+    console_break_line()
+    test_generator(15, 0.11, 0.09, 3600)
+    console_break_line()
+    test_generator(15, 0.12, 0.09, 3600)
+    console_break_line()
+    test_generator(15, 0.14, 0.09, 3600)
+    console_break_line()
+    test_generator(15, 0.16, 0.09, 3600)
+    console_break_line()
+    test_generator(15, 0.18, 0.09, 3600)
+    console_break_line()
+    test_generator(15, 0.20, 0.09, 3600)
+    console_break_line()
     
+    graph_bar_generator(average_time_group[0:7], [round(1/(0.10), 2), round(1/(0.11), 2), round(1/(0.12), 2), round(1/(0.14), 2), round(1/(0.16), 2), round(1/(0.18), 2), round(1/(0.20), 2)], "1/E[C]", "Média de tempo na fila", "Experimento 1/4", "red")
+    graph_bar_generator(dropout_taxe_group[0:7], [round(1/(0.10), 2), round(1/(0.11), 2), round(1/(0.12), 2), round(1/(0.14), 2), round(1/(0.16), 2), round(1/(0.18), 2), round(1/(0.20), 2)], "1/E[C]", "Taxa de desistência", "Experimento 2/4", "red")
+    graph_bar_generator(use_taxe_group[0:7], [round(1/(0.10), 2), round(1/(0.11), 2), round(1/(0.12), 2), round(1/(0.14), 2), round(1/(0.16), 2), round(1/(0.18), 2), round(1/(0.20), 2)], "1/E[C]", "Taxa de utilização", "Experimento 3/4", "red")
+    graph_bar_generator(expected_number_of_elements_group[0:7], [round(1/(0.10), 2), round(1/(0.11), 2), round(1/(0.12), 2), round(1/(0.14), 2), round(1/(0.16), 2), round(1/(0.18), 2), round(1/(0.20), 2)], "1/E[C]", "Número esperado de elementos na fila", "Experimento 4/4", "red")
+
+    # Exemplo extra
     for i in range(0,16):
         test_generator(15, 0.11, 0.09, 3600)
         console_break_line()
 
-    graph_bar_generator(average_time_group, "Média de tempo na fila")
-    graph_bar_generator(dropout_taxe_group, "Taxa de desistência")
-    graph_bar_generator(use_taxe_group, "Taxa de utilização")
-    graph_bar_generator(expected_number_of_elements_group, "Número esperado de elementos na fila")
+    graph_bar_generator(average_time_group[7:23], [], "Experimentos", "Média de tempo na fila", "Experimento Extra 1/4", "blue")
+    graph_bar_generator(dropout_taxe_group[7:23], [], "Experimentos", "Taxa de desistência", "Experimento Extra 2/4", "blue")
+    graph_bar_generator(use_taxe_group[7:23], [], "Experimentos", "Taxa de utilização", "Experimento Extra 3/4", "blue")
+    graph_bar_generator(expected_number_of_elements_group[7:23], [], "Experimentos", "Número esperado de elementos na fila", "Experimento Extra 4/4", "blue")
 
 examples()
