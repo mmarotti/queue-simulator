@@ -3,6 +3,7 @@
 from event import Event, Arrival, Exit
 from element import Element
 from termcolor import colored
+import numpy as np
 import matplotlib.pyplot as plt
 
 average_time_group = []
@@ -108,7 +109,7 @@ class Simulator:
         expected_number_of_elements_group.append(expected_number)
         return expected_number
 
-def title():
+def console_title():
     print("##############################################################")
     print("#####                                                    #####")
     print("#####        SIMULADOR DE AVALIAÇÃO DE DESEMPENHO        #####")
@@ -118,12 +119,12 @@ def title():
     print("##############################################################")
     print()
 
-def breakLine():
+def console_break_line():
     print()
     print("###################################################")
     print()
 
-def testGenerator(queue_size, lamb, lamb_server, simulation_time):
+def test_generator(queue_size, lamb, lamb_server, simulation_time):
     teste = Simulator(queue_size, lamb, lamb_server)
     inicial = Arrival(0)
     teste.simulate(inicial, simulation_time)
@@ -132,31 +133,36 @@ def testGenerator(queue_size, lamb, lamb_server, simulation_time):
     teste.use_taxe()
     teste.expected_number_of_elements()
 
+def err_generator(info_array):
+    err_array = []
+
+    for i in info_array:
+        err_array.append(0.05 * i)
+
+    return err_array
+
+def graph_bar_generator(info_array, label):
+    barWidth = 0.5
+    yerr = err_generator(info_array)
+    position_array = np.arange(len(info_array))
+    plt.bar(position_array, info_array, width = barWidth, color = 'blue', edgecolor = 'black', yerr=yerr, capsize=7, label='experimentos')
+    
+    plt.xticks(position_array, position_array)
+    plt.ylabel(label)
+    plt.title(label)
+    
+    plt.show()
+
 def examples():
-    title()
+    console_title()
     
     for i in range(0,16):
-        testGenerator(15, 0.11, 0.09, 3600)
-        breakLine()
+        test_generator(15, 0.11, 0.09, 3600)
+        console_break_line()
 
-    plt.plot( average_time_group )
-    plt.title("Média de tempo na fila")
-    plt.show()
-
-    plt.plot( dropout_taxe_group )
-    plt.title("Taxa de desistência")
-    plt.show()
-
-    plt.plot( use_taxe_group )
-    plt.title("Taxa de utilização")
-    plt.show()
-
-    plt.plot( expected_number_of_elements_group )
-    plt.title("Número esperado de elementos na fila")
-    plt.show()
+    graph_bar_generator(average_time_group, "Média de tempo na fila")
+    graph_bar_generator(dropout_taxe_group, "Taxa de desistência")
+    graph_bar_generator(use_taxe_group, "Taxa de utilização")
+    graph_bar_generator(expected_number_of_elements_group, "Número esperado de elementos na fila")
 
 examples()
-
-
-
-
