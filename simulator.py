@@ -35,7 +35,7 @@ class Simulator:
                 self.num_arrivals += 1
                 if(len(self.queue) < self.queue_size):
                     self.queue.append(Element(self.time))
-                    if(self.num_arrivals == 1):
+                    if(len(self.queue) == 1):
                         self.queue[0].start_processing = self.time
                     else:
                         self.progression.append([len(self.queue), self.time])
@@ -89,11 +89,11 @@ class Simulator:
         w = 0
         for element in self.processed_queue:
             w += element.exit - element.start_processing
-        print(colored("| Taxa de utilização: " + str(w/self.simulation_time), "cyan"))
+        print(colored("| Taxa de utilização: " + str(w/self.time), "cyan"))
         print("-------------------------------------------")
 
-        use_taxe_group.append(w/self.simulation_time)
-        return (w/self.simulation_time)
+        use_taxe_group.append(w/self.time)
+        return (w/self.time)
 
 
     def expected_number_of_elements(self):
@@ -146,7 +146,7 @@ def graph_bar_generator(info_array, name_array, label_x, label_y, title, color):
     yerr = err_generator(info_array)
     position_array = np.arange(len(info_array))
     plt.bar(position_array, info_array, width = barWidth, color = color, edgecolor = 'black', yerr=yerr, capsize=7, label='experimentos')
-    
+
     if len(name_array) != 0:
         plt.xticks(position_array, name_array)
     else:
@@ -155,7 +155,7 @@ def graph_bar_generator(info_array, name_array, label_x, label_y, title, color):
     plt.xlabel(label_x)
     plt.ylabel(label_y)
     plt.title(title)
-    
+
     plt.show()
 
 def examples():
@@ -164,9 +164,9 @@ def examples():
     # Exemplo de execução
     test_generator(15, 0.10, 0.09, 3600)
     console_break_line()
-    test_generator(15, 0.11, 0.09, 3600)
+    test_generator(15, 0.11, 0.09, 600)
     console_break_line()
-    test_generator(15, 0.12, 0.09, 3600)
+    test_generator(15, 0.12, 0.09, 600)
     console_break_line()
     test_generator(15, 0.14, 0.09, 3600)
     console_break_line()
@@ -176,7 +176,7 @@ def examples():
     console_break_line()
     test_generator(15, 0.20, 0.09, 3600)
     console_break_line()
-    
+
     graph_bar_generator(average_time_group[0:7], [round(1/(0.10), 2), round(1/(0.11), 2), round(1/(0.12), 2), round(1/(0.14), 2), round(1/(0.16), 2), round(1/(0.18), 2), round(1/(0.20), 2)], "1/E[C]", "Média de tempo na fila", "Experimento 1/4", "red")
     graph_bar_generator(dropout_taxe_group[0:7], [round(1/(0.10), 2), round(1/(0.11), 2), round(1/(0.12), 2), round(1/(0.14), 2), round(1/(0.16), 2), round(1/(0.18), 2), round(1/(0.20), 2)], "1/E[C]", "Taxa de desistência", "Experimento 2/4", "red")
     graph_bar_generator(use_taxe_group[0:7], [round(1/(0.10), 2), round(1/(0.11), 2), round(1/(0.12), 2), round(1/(0.14), 2), round(1/(0.16), 2), round(1/(0.18), 2), round(1/(0.20), 2)], "1/E[C]", "Taxa de utilização", "Experimento 3/4", "red")
